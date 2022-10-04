@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { Container } from './Cast.styled';
 import { CastList } from 'components';
-import { GET_CAST } from 'apollo/qgl-queris';
+import { GET_CAST } from 'apollo/qgl-queries';
 import { useQuery } from '@apollo/client';
 
 export const Cast = () => {

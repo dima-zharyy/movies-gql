@@ -2,7 +2,7 @@ import { useSearchParams } from 'react-router-dom';
 import { SearchBar, MoviesList, notify } from 'components';
 import { Container } from './Movies.styled';
 import { useQuery } from '@apollo/client';
-import { SEARCH_MOVIES } from 'apollo/qgl-queris';
+import { SEARCH_MOVIES } from 'apollo/qgl-queries';
 
 export const Movies = () => {
   const [searchParams, setSearchParams] = useSearchParams();

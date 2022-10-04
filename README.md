@@ -1,6 +1,7 @@
 ## Frontend - React, GraphQL, Apollo client
 
-- https://github.com/dima-zharyy/movies-gql
+- repository - https://github.com/dima-zharyy/movies-gql
+- app - https://dma-movies-gql.netlify.app/
 
 ## Backend - Express, GraphQL Yoga
 

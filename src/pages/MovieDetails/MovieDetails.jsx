@@ -2,7 +2,7 @@ import { Details, Loader } from 'components';
 import { Suspense } from 'react';
 import { useParams, Outlet, useNavigate } from 'react-router-dom';
 import { Container } from './MovieDetails.styled';
-import { GET_DETAILS } from 'apollo/qgl-queris';
+import { GET_DETAILS } from 'apollo/qgl-queries';
 import { useQuery } from '@apollo/client';
 
 export const MovieDetails = () => {
