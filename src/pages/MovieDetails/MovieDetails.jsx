@@ -1,27 +1,27 @@
 import { Details, Loader } from 'components';
-import { useState, useEffect, Suspense } from 'react';
+import { Suspense } from 'react';
 import { useParams, Outlet, useNavigate } from 'react-router-dom';
-import { getDetails } from 'service';
 import { Container } from './MovieDetails.styled';
+import { GET_DETAILS } from 'apollo/qgl-queris';
+import { useQuery } from '@apollo/client';
 
 export const MovieDetails = () => {
-  const [movieDetails, setMovieDetails] = useState(null);
   const { movieId } = useParams();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    getDetails(movieId)
-      .then(setMovieDetails)
-      .catch(error => {
+  const { data } = useQuery(GET_DETAILS, {
+    variables: { id: +movieId },
+    onError: error => {
+      if (error) {
         navigate('/', { replace: true });
-        console.log(error.message);
-      });
-  }, [movieId, navigate]);
+      }
+    },
+  });
 
   return (
     <main>
       <Container>
-        {movieDetails && <Details movieDetails={movieDetails} />}
+        {data?.details && <Details movieDetails={data?.details} />}
 
         <Suspense fallback={<Loader />}>
           <Outlet />

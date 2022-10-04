@@ -1,28 +1,22 @@
-import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { SearchBar, MoviesList, notify } from 'components';
 import { Container } from './Movies.styled';
-import { getMovies } from 'service';
+import { useQuery } from '@apollo/client';
+import { SEARCH_MOVIES } from 'apollo/qgl-queris';
 
 export const Movies = () => {
-  const [movies, setMovies] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get('query');
 
-  useEffect(() => {
-    if (!query) {
-      return;
-    }
-
-    getMovies(query)
-      .then(data => {
-        setMovies(data);
-        if (data.length === 0) {
-          notify(`There is no result on query: ${query}`);
-        }
-      })
-      .catch(error => console.log(error.message));
-  }, [query]);
+  const { data } = useQuery(SEARCH_MOVIES, {
+    variables: { query },
+    skip: !query,
+    onCompleted: data => {
+      if (data?.searchMovies?.length === 0) {
+        notify(`There is no result on query: ${query}`);
+      }
+    },
+  });
 
   const handleSubmit = query => {
     setSearchParams({ query });
@@ -36,7 +30,9 @@ export const Movies = () => {
   return (
     <Container>
       <SearchBar onSubmit={handleSubmit} />
-      {movies.length > 0 && <MoviesList movies={movies} />}
+      {data?.searchMovies && data?.searchMovies?.length > 0 && (
+        <MoviesList movies={data.searchMovies} />
+      )}
     </Container>
   );
 };

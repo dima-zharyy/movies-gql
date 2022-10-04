@@ -40,6 +40,7 @@ export const Details = ({ movieDetails }) => {
 
 Details.propTypes = {
   movieDetails: PropTypes.exact({
+    __typename: PropTypes.string,
     genres: PropTypes.arrayOf(PropTypes.object),
     overview: PropTypes.string,
     poster_path: PropTypes.string,

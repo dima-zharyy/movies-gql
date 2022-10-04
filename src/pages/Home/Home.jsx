@@ -1,21 +1,15 @@
-import { useState, useEffect } from 'react';
-import { getTrending } from 'service';
 import { MoviesList } from 'components';
 import { Title, Container } from './Home.styled';
+import { useQuery } from '@apollo/client';
+import { GET_MOVIES } from 'apollo/qgl-queris';
 
 export const Home = () => {
-  const [movies, setMovies] = useState(null);
-
-  useEffect(() => {
-    getTrending()
-      .then(setMovies)
-      .catch(error => console.log(error.message));
-  }, []);
+  const { data } = useQuery(GET_MOVIES);
 
   return (
     <Container>
       <Title>Trending today</Title>
-      {movies && <MoviesList movies={movies.results} />}
+      {data?.movies && <MoviesList movies={data.movies} />}
     </Container>
   );
 };

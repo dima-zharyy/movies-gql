@@ -1,18 +1,16 @@
+import { useQuery } from '@apollo/client';
 import { ReviewsList } from 'components';
-import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { getReviews } from 'service';
+import { GET_REVIEWS } from 'apollo/qgl-queris';
 
 export const Reviews = () => {
   const { movieId } = useParams();
 
-  const [reviews, setReviews] = useState(null);
+  const { data } = useQuery(GET_REVIEWS, {
+    variables: {
+      id: +movieId,
+    },
+  });
 
-  useEffect(() => {
-    getReviews(movieId)
-      .then(setReviews)
-      .catch(error => console.log(error.message));
-  }, [movieId]);
-
-  return <ReviewsList reviews={reviews} />;
+  return <>{data?.reviews && <ReviewsList reviews={data.reviews} />}</>;
 };

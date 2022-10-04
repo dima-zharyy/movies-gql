@@ -1,23 +1,18 @@
-import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { getCredits } from 'service';
 import { Container } from './Cast.styled';
 import { CastList } from 'components';
+import { GET_CAST } from 'apollo/qgl-queris';
+import { useQuery } from '@apollo/client';
 
 export const Cast = () => {
   const { movieId } = useParams();
-
-  const [castInfo, setCastInfo] = useState(null);
-
-  useEffect(() => {
-    getCredits(movieId)
-      .then(setCastInfo)
-      .catch(error => console.log(error.message));
-  }, [movieId]);
+  const { data } = useQuery(GET_CAST, {
+    variables: { id: +movieId },
+  });
 
   return (
     <Container>
-      <CastList castInfo={castInfo} />
+      {data?.credits && <CastList castInfo={data.credits} />}
     </Container>
   );
 };
